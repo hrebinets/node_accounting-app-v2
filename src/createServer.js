@@ -251,7 +251,7 @@ function createServer() {
 
     if (
       (title && typeof title !== 'string') ||
-      (amount && typeof amount !== 'number') ||
+      (amount && (typeof amount !== 'number' || isNaN(amount))) ||
       (category && typeof category !== 'string') ||
       (note && typeof note !== 'string') ||
       (spentAt && typeof spentAt !== 'string')
@@ -278,7 +278,9 @@ function createServer() {
     }
 
     if (spentAt !== undefined) {
-      Object.assign(currentExpence, { spentAt });
+      const spentAtDate = new Date(spentAt);
+
+      Object.assign(currentExpence, { spentAt: spentAtDate });
     }
 
     res.send(currentExpence);
